@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Santi Jr. 🐣 · Una estrellita está en camino
 
-## Getting Started
+Una cuenta regresiva llena de nubes para la llegada de **Santi Jr.**
 
-First, run the development server:
+- Tema nocturno oscuro con acentos azul bebé
+- Nubes que se desplazan, estrellas titilantes, una luna suave y una nube mascota
+- Cuenta regresiva en vivo (días / horas / minutos / segundos)
+- Cambia automáticamente a celebración y cuenta ascendente cuando llega el gran día
+- Construido con Next.js (App Router), TypeScript, Tailwind CSS v4 y shadcn/ui
+- Listo para desplegar en Vercel
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Make it yours
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Everything is driven by a single date in `src/lib/baby.ts`. You can either edit
+the fallback there or use environment variables (recommended).
 
-## Learn More
+Copy the example file:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cp .env.example .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | Required | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_BIRTH_DATE` | No | The big day as ISO 8601 with an explicit offset, e.g. `2027-01-18T23:59:00-05:00`. Defaults to Jan 18, 2027. |
+| `NEXT_PUBLIC_BABY_NAME` | No | Displayed name. Defaults to `Santi Jr.` |
+| `NEXT_PUBLIC_BIRTH_TIME_ZONE` | No | Used to display the date. Defaults to `America/Bogota`. |
+| `NEXT_PUBLIC_SITE_URL` | No | Canonical URL for social metadata, e.g. `https://santi-jr.vercel.app`. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Restart the dev server after changing env values.
 
-## Deploy on Vercel
+### How the page behaves
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Before the date:** a countdown to the arrival. If there are 14 days or less
+  left, the badge changes to “Any day now.”
+- **After the date:** the badge changes to “Welcome to the world,” confetti
+  falls once, the mascot opens its eyes, and the timer counts **up** since
+  Santi Jr. arrived (days old / hours / minutes / seconds).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All decorative motion is disabled for visitors who prefer reduced motion.
+
+## Deploy to Vercel
+
+### Option A — Dashboard
+
+1. Push this repository to GitHub / GitLab / Bitbucket.
+2. In [Vercel](https://vercel.com/new), import the repository.
+3. Framework preset: **Next.js** (auto-detected). No build settings needed.
+4. Add the environment variables from the table above (at minimum
+   `NEXT_PUBLIC_BIRTH_DATE`).
+5. Deploy.
+
+### Option B — CLI
+
+```bash
+npx vercel
+npx vercel --prod
+```
+
+Then add the env vars in **Project → Settings → Environment Variables** and
+redeploy. `NEXT_PUBLIC_*` values are inlined at build time, so **changing the
+date requires a new deployment**.
+
+## Project structure
+
+```text
+src/
+├─ app/
+│  ├─ globals.css             # dark baby-blue theme + animations
+│  ├─ icon.svg                # cloud favicon
+│  ├─ layout.tsx              # fonts, metadata, theme color
+│  ├─ opengraph-image.tsx     # social share card
+│  └─ page.tsx
+├─ components/
+│  ├─ birthday-experience.tsx # countdown UI + mode switch
+│  ├─ cloud-mascot.tsx        # sleepy / awake cloud
+│  ├─ confetti.tsx            # one-shot celebration
+│  ├─ share-button.tsx        # native share or copy link
+│  ├─ sky-background.tsx      # clouds, stars, moon, sparkles
+│  └─ ui/                     # shadcn/ui components
+├─ hooks/use-now.ts
+└─ lib/
+   ├─ baby.ts                 # date, name, time zone
+   └─ countdown.ts            # pure time helpers
+```
+
+## Scripts
+
+```bash
+npm run dev    # start development
+npm run build  # production build
+npm run start  # serve production build
+npm run lint   # eslint
+```

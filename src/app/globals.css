@@ -1,26 +1,339 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), "Baloo 2", ui-rounded, system-ui, sans-serif;
+  --font-heading: var(--font-fredoka), "Baloo 2", ui-rounded, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
+  --color-baby: #7dd3fc;
+  --color-baby-soft: #bae6fd;
+  --color-baby-deep: #38bdf8;
+  --color-night: #050b18;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+ * Dark-only theme with a baby-blue accent.
+ * The site intentionally renders a single night-sky mood.
+ */
+:root {
+  color-scheme: dark;
+  --background: #050b18;
+  --foreground: #eaf7ff;
+  --card: rgba(13, 34, 60, 0.55);
+  --card-foreground: #eaf7ff;
+  --popover: #0a1729;
+  --popover-foreground: #eaf7ff;
+  --primary: #7dd3fc;
+  --primary-foreground: #04121f;
+  --secondary: rgba(125, 211, 252, 0.14);
+  --secondary-foreground: #e6f7ff;
+  --muted: rgba(148, 197, 230, 0.1);
+  --muted-foreground: #9dc4dd;
+  --accent: rgba(125, 211, 252, 0.16);
+  --accent-foreground: #f0faff;
+  --destructive: #fb7185;
+  --border: rgba(186, 230, 253, 0.14);
+  --input: rgba(186, 230, 253, 0.18);
+  --ring: #7dd3fc;
+  --chart-1: #7dd3fc;
+  --chart-2: #38bdf8;
+  --chart-3: #bae6fd;
+  --chart-4: #818cf8;
+  --chart-5: #f0abfc;
+  --radius: 1.25rem;
+  --sidebar: #081426;
+  --sidebar-foreground: #eaf7ff;
+  --sidebar-primary: #7dd3fc;
+  --sidebar-primary-foreground: #04121f;
+  --sidebar-accent: rgba(125, 211, 252, 0.12);
+  --sidebar-accent-foreground: #eaf7ff;
+  --sidebar-border: rgba(186, 230, 253, 0.12);
+  --sidebar-ring: #7dd3fc;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    min-height: 100svh;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(125, 211, 252, 0.32);
+    color: #f8fdff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------------------------------- */
+/* Hero title                          */
+/* ---------------------------------- */
+
+.hero-title {
+  background-image: linear-gradient(
+    110deg,
+    #f8fdff 0%,
+    #dbf3ff 18%,
+    #bae6fd 36%,
+    #7dd3fc 52%,
+    #e0f2fe 70%,
+    #f8fdff 100%
+  );
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: title-shimmer 14s linear infinite;
+}
+
+/* ---------------------------------- */
+/* Background                          */
+/* ---------------------------------- */
+
+@keyframes cloud-drift {
+  from {
+    transform: translate3d(-45vw, 0, 0);
+  }
+  to {
+    transform: translate3d(125vw, 0, 0);
+  }
+}
+
+@keyframes cloud-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(1.5deg);
+  }
+}
+
+@keyframes moon-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes shoot {
+  0%,
+  91% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(-18deg) scaleX(0.2);
+  }
+  93% {
+    opacity: 0.9;
+  }
+  97% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(42vw, 20vh, 0) rotate(-18deg) scaleX(1);
+  }
+}
+
+@keyframes title-shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+.cloud-drift {
+  animation-name: cloud-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.cloud-bob {
+  animation-name: cloud-bob;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.star-twinkle {
+  animation-name: twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+.moon-glow {
+  animation: moon-glow 9s ease-in-out infinite;
+}
+
+.shooting-star {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(186, 230, 253, 0.9),
+    transparent
+  );
+  animation: shoot 18s ease-in infinite;
+}
+
+/* ---------------------------------- */
+/* Countdown                           */
+/* ---------------------------------- */
+
+@keyframes tick-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.96);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.tick-in {
+  animation: tick-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------------------------------- */
+/* Celebration                         */
+/* ---------------------------------- */
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift, 20px), 110vh, 0)
+      rotate(var(--spin, 540deg));
+  }
+}
+
+.confetti-piece {
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1);
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  will-change: transform, opacity;
+}
+
+/* ---------------------------------- */
+/* Texture                             */
+/* ---------------------------------- */
+
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+  opacity: 0.035;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title,
+  .cloud-drift,
+  .cloud-bob,
+  .star-twinkle,
+  .float-soft,
+  .moon-glow,
+  .shooting-star,
+  .tick-in,
+  .confetti-piece {
+    animation: none !important;
+  }
+
+  .confetti-piece {
+    display: none;
+  }
 }
